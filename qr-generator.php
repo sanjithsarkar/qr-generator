@@ -1,12 +1,12 @@
 <?php
 
 /**
- * Plugin Name: WP with vue-tailwind-vite
- * Plugin URI: http://wpminers.com/
+ * Plugin Name: QR Generator
+ * Plugin URI: ""
  * Description: A sample WordPress plugin to implement Vue with tailwind.
- * Author: Hasanuzzaman Shamim
- * Author URI: http://hasanuzzaman.com/
- * Version: 1.0.6
+ * Author: Sanjith
+ * Author URI: ""
+ * Version: 1.0
  */
 define('WPM_URL', plugin_dir_url(__FILE__));
 define('WPM_DIR', plugin_dir_path(__FILE__));
@@ -39,8 +39,8 @@ class WPPluginWithVueTailwind {
             }
             global $submenu;
             add_menu_page(
-                'WPPluginVueTailwind',
-                'WP Plugin Vue Tailwind',
+                'WPPluginQRGenerator',
+                'QR Generator',
                 'manage_options',
                 'wpp-plugin-with-vue-tailwind.php',
                 array($this, 'renderAdminPage'),

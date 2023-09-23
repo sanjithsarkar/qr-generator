@@ -2,7 +2,7 @@ const glob = require('glob');
 const fs = require('fs');
 
 // For entry file selection
-glob("wp-plugin-with-vue-tailwind.php", function(err, files) {
+glob("qr-generator.php", function(err, files) {
         files.forEach(function(item, index, array) {
             const data = fs.readFileSync(item, 'utf8');
             const mapObj = {
