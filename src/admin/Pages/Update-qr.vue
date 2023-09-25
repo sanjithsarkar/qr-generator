@@ -14,24 +14,32 @@ const getData = () => {
         console.log(form.value);
       })
       .catch((error) => {
-    console.error('Error fetching data:', error);
-  });
+        console.error('Error fetching data:', error);
+      });
 }
 
 onMounted(() => {
   getData();
 })
-const updateData = () => {
-  axios.post(window.qr_generator.resturl + 'update/' + id, form.value)
-      .then((res) => {
-        alert("Data Updated Successfully");
-        form.value = {};
-        // form.reset();
-      })
-      .catch((error) => {
-        console.error("Error:", error);
-      });
+
+const imageUrl = ref(null);
+
+const onFileSelected = (event) => {
+  form.image = event.target.files[0];
+  imageUrl.value = URL.createObjectURL(form.image);
 }
+
+  const updateData = () => {
+    axios.post(window.qr_generator.resturl + 'update/' + id, form.value)
+        .then((res) => {
+          alert("Data Updated Successfully");
+          form.value = {};
+          // form.reset();
+        })
+        .catch((error) => {
+          console.error("Error:", error);
+        });
+  }
 
 
 </script>
@@ -62,11 +70,11 @@ const updateData = () => {
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div class="col-span-1">
             <label class="block mb-2 text-sm font-medium text-gray-900">Image</label>
-            <input type="file"
+            <input type="file" id="customFile" @change="onFileSelected"
                    class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50">
           </div>
-          <div class="col-span-1 shadow-xl">
-            <img class="h-[50px] max-w-xl rounded-lg" src="" alt="Not Found">
+          <div class="col-span-1 shadow-xl flex justify-center">
+            <img class="h-[50px] max-w-xl rounded-lg" :src="imageUrl" v-if="imageUrl" style="height: 60px; width: 70px;" alt="Not Found">
           </div>
         </div>
 

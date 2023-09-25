@@ -77,10 +77,8 @@ const getData = () => {
             <input type="file" id="customFile" @change="onFileSelected"
                    class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50">
           </div>
-          <div class="col-span-1 shadow-xl">
-            <img class="h-[50px] max-w-xl rounded-lg" :src="imageUrl" v-if="imageUrl" style="height: 50px; width: 60px;" alt="Not Found">
-            <div class="col-md-5">
-            </div>
+          <div class="col-span-1 shadow-xl flex justify-center">
+            <img class="h-[50px] max-w-xl rounded-full w-96 h-96" :src="imageUrl" v-if="imageUrl" style="height: 55px; width: 65px;" alt="Not Found">
           </div>
         </div>
 

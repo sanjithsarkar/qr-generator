@@ -17,56 +17,6 @@ onMounted(() => {
 </script>
 
 <template>
-<!--  <div>-->
-<!--    <table class="min-w-full divide-y divide-gray-200">-->
-<!--      <thead class="bg-gray-50">-->
-<!--      <tr>-->
-<!--        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">-->
-<!--          QR Name-->
-<!--        </th>-->
-<!--        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">-->
-<!--          Name-->
-<!--        </th>-->
-<!--        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">-->
-<!--          Surname-->
-<!--        </th>-->
-<!--        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">-->
-<!--          Title-->
-<!--        </th>-->
-<!--        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">-->
-<!--          Email-->
-<!--        </th>-->
-<!--        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">-->
-<!--          Mobile-->
-<!--        </th>-->
-<!--        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">-->
-<!--          Address-->
-<!--        </th>-->
-
-<!--        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">-->
-<!--          Action-->
-<!--        </th>-->
-<!--      </tr>-->
-<!--      </thead>-->
-<!--      <tbody class="bg-white divide-y divide-gray-200">-->
-<!--      <tr v-for="(item, index) in tableData" :key="item.id">-->
-<!--        <td class="px-6 py-4 whitespace-nowrap">{{ item.qr_name }}</td>-->
-<!--        <td class="px-6 py-4 whitespace-nowrap">{{ item.name }}</td>-->
-<!--        <td class="px-6 py-4 whitespace-nowrap">{{ item.surname }}</td>-->
-<!--        <td class="px-6 py-4 whitespace-nowrap">{{ item.title }}</td>-->
-<!--        <td class="px-6 py-4 whitespace-nowrap">{{ item.email }}</td>-->
-<!--        <td class="px-6 py-4 whitespace-nowrap">{{ item.mobile }}</td>-->
-<!--        <td class="px-6 py-4 whitespace-nowrap">{{ item.address }}</td>-->
-<!--        <td class="px-6 py-4 whitespace-nowrap">-->
-<!--          <router-link :to="`/update-qr/${item.id}`">Edit</router-link>-->
-<!--&lt;!&ndash;          <router-link :to="{ name: 'UpdateQr', params: {id: item.id}}">Edit</router-link>&ndash;&gt;-->
-<!--        </td>-->
-<!--      </tr>-->
-<!--      </tbody>-->
-<!--    </table>-->
-<!--  </div>-->
-
-
   <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
     <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
       <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
