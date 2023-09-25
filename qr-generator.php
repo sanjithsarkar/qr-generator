@@ -24,7 +24,6 @@ class QrCodePlugin {
     public function boot()
     {
         $this->loadClasses();
-        $this->registerShortCodes();
         $this->ActivatePlugin();
         $this->renderMenu();
         $this->disableUpdateNag();
@@ -97,10 +96,6 @@ class QrCodePlugin {
         </div>';
     }
 
-    public function registerShortCodes()
-    {
-        // your shortcode here
-    }
 
     // disable update nag on admin dashboard
     public function disableUpdateNag()
