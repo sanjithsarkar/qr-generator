@@ -1,5 +1,7 @@
 import Admin from './Components/Admin.vue';
-import Contact from './Components/Contact.vue';
+import CreateQr from './Pages/Create-qr.vue';
+import MyQr from "./Pages/My-qr.vue";
+import UpdateQr from "./Pages/Update-qr.vue";
 
 export default [{
         path: '/',
@@ -10,8 +12,20 @@ export default [{
         },
     },
     {
-        path: '/contact',
-        name: 'contact',
-        component: Contact
+        path: '/create-qr',
+        name: 'CreateQr',
+        component: CreateQr
+    },
+
+    {
+        path: '/my-qr',
+        name: 'MyQr',
+        component: MyQr
+    },
+
+    {
+        path: '/update-qr/:id',
+        name: 'UpdateQr',
+        component: UpdateQr
     }
 ];

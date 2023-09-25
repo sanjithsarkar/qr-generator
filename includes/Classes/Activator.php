@@ -2,6 +2,8 @@
 
 namespace WPPluginWithVueTailwind\Classes;
 
+use WPPluginWithVueTailwind\Classes\Controllers\QrCodeController;
+
 if (!defined('ABSPATH')) {
     exit;
 }
@@ -48,20 +50,25 @@ class Activator
     {
         global $wpdb;
         $charset_collate = $wpdb->get_charset_collate();
-        $table_name = $wpdb->prefix . 'WPWVT_user_favorites';
+        $table_name = $wpdb->prefix . 'userdata';
         $sql = "CREATE TABLE $table_name (
             id int(10) NOT NULL AUTO_INCREMENT,
             user_id int(10) NOT NULL,
-            post_id int(10) NOT NULL,
-            created_at timestamp NULL DEFAULT NULL,
-            updated_at timestamp NULL DEFAULT NULL,
+            qr_name VARCHAR(255) NOT NULL,
+            name VARCHAR(255) NOT NULL,
+            surname varchar(255) NOT NULL,
+            title varchar(255) NOT NULL,
+            image varchar(255) NOT NULL,
+            email VARCHAR(255) NOT NULL,
+            mobile VARCHAR(20) NOT NULL,
+            address VARCHAR(255) NOT NULL,
             PRIMARY KEY (id)
             ) $charset_collate;";
 
         $this->runSQL($sql, $table_name);
     }
 
-    private function runSQL($sql, $tableName)
+    public function runSQL($sql, $tableName)
     {
         global $wpdb;
         if ($wpdb->get_var("SHOW TABLES LIKE '$tableName'") != $tableName) {

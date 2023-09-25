@@ -19,10 +19,10 @@
     </div>
 </template>
 <script type="module">
-import CardLineChart from "./Cards/CardLineChart.vue";
-import CardBarChart from "./Cards/CardBarChart.vue";
-import CardPageVisits from "./Cards/CardPageVisits.vue";
-import CardSocialTraffic from "./Cards/CardSocialTraffic.vue";
+import CardLineChart from "../Components/Cards/CardLineChart.vue";
+import CardBarChart from "../Components/Cards/CardBarChart.vue";
+import CardPageVisits from "../Components/Cards/CardPageVisits.vue";
+import CardSocialTraffic from "../Components/Cards/CardSocialTraffic.vue";
 export default {
     name: "dashboard-page",
     components: {

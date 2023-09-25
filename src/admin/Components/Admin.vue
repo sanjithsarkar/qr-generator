@@ -16,7 +16,7 @@ import DashboardNavbar from "./Navbars/DashboardNavbar.vue";
 import HeaderStats from "./Headers/HeaderStats.vue";
 import FooterAdmin from "./Footers/FooterAdmin.vue";
 
-import Dashboard from './Dashboard.vue';
+import Dashboard from '../Pages/Dashboard.vue';
 export default {
   name: "admin-layout",
   components: {
