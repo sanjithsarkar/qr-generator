@@ -3,7 +3,7 @@
 /**
  * Plugin Name: QR Generator
  * Plugin URI: ""
- * Description: A sample WordPress plugin to implement Vue with tailwind.
+ * Description: QR-Generator is a plugin developed by vue and Tailwind.
  * Author: Sanjith
  * Author URI: ""
  * Version: 1.0
