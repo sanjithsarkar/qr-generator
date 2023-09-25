@@ -49,6 +49,14 @@ private  function registerRoutes(){
         'methods' => 'POST',
         'callback' => [new QrCodeController, 'updateData'],
     ]);
+
+    register_rest_route(QR_GENERATOR_SLUG.'/api', '/delete/(?P<id>\d+)', [
+        'methods' => 'DELETE',
+        'callback' => function($params){
+            return (new QrCodeController)->deleteData($params);
+        },
+    ]);
+
 }
 
 //    private function registerInsertRoute()

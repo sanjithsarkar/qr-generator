@@ -24,7 +24,7 @@ class QrCodeController
 
     public function insertData(WP_REST_Request $request)
     {
-        global $wpdb;
+        global $wpdb, $current_user;
 
         $params = $request->get_params();
         $qrName = isset($params['qr_name']) ? sanitize_text_field($params['qr_name']) : '';
@@ -34,22 +34,25 @@ class QrCodeController
         $email = isset($params['email']) ? sanitize_text_field($params['email']) : '';
         $mobile = isset($params['mobile']) ? sanitize_text_field($params['mobile']) : '';
         $address = isset($params['address']) ? sanitize_text_field($params['address']) : '';
-        $image = isset($params['image']) ? sanitize_text_field($params['image']) : '';
+//        $image = isset($params['image']) ? sanitize_text_field($params['image']) : '';
 
 
         if (empty($name)) {
             return new WP_Error('empty_name', 'Name field is empty.', array('status' => 400));
         }
 
+        $userId = get_current_user_id();
+        $current_user_email = $current_user->email;
+
         $dataInsert = array(
+            'user_id' => $userId,
             'qr_name' => $qrName,
             'name' => $name,
             'surname' => $surname,
             'title' => $title,
             'email' => $email,
             'mobile' => $mobile,
-            'address' => $address,
-            'image' => $image
+            'address' => $address
         );
 
         // Insert data into the database table
@@ -67,7 +70,7 @@ class QrCodeController
             'message' => 'Data inserted successfully!',
         );
 
-        return rest_ensure_response($response);
+        return rest_ensure_response($userId);
     }
 
 
@@ -137,8 +140,8 @@ class QrCodeController
         global $wpdb;
         $table_name = $wpdb->prefix . 'userdata';
 
-        $data_to_update = array(
-            'id' => $params['id'],
+        $updateData = array(
+            'id' => $id,
             'qr_name'  => $params['qr_name'],
             'name'     => $params['name'],
             'surname'  => $params['surname'],
@@ -148,9 +151,9 @@ class QrCodeController
             'address'  => $params['address'],
         );
 
-        $where = array('id' => $data_to_update['id']);
+        $where = array('id' => $updateData['id']);
 
-        $wpdb->update($table_name, $data_to_update, $where);
+        $wpdb->update($table_name, $updateData, $where);
 
         if ($wpdb->last_error) {
             return new WP_Error('database_error', 'Error inserting data into the database.', array('status' => 500));
@@ -162,4 +165,24 @@ class QrCodeController
 
         return rest_ensure_response($response);
     }
+
+
+    public function deleteData($params) {
+
+        global $wpdb;
+
+        $id = $params['id'];
+
+        $table_name = $wpdb->prefix . 'userdata';
+
+        $query = $wpdb->delete( $table_name, array( 'id' => $id ) );
+
+        if ($query) {
+            return rest_ensure_response(array('message' => 'Data deleted successfully'), 200);
+        } else {
+            return new WP_Error('delete_failed', 'Failed to delete data', array('status' => 500));
+        }
+    }
+
+
 }

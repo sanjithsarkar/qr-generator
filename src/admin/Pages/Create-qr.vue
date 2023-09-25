@@ -12,6 +12,10 @@ const onFileSelected = (event) => {
   imageUrl.value = URL.createObjectURL(form.image);
 };
 const insertData = () => {
+
+  let formData = new FormData();
+  formData.append('image', form.value.image);
+
   axios.post(window.qr_generator.resturl +'insert', form.value)
       .then((res) => {
         alert("Data inserted successfully");
@@ -25,7 +29,7 @@ const insertData = () => {
 
 
 const getData = () => {
-  axios.get('http://127.0.0.1/qrcode/wp-json/api/getdata/' + 1)
+  axios.get(window.qr_generator.resturl + 'getdata/' + 1)
 }
 
 
@@ -74,7 +78,7 @@ const getData = () => {
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div class="col-span-1">
             <label class="block mb-2 text-sm font-medium text-gray-900">Image</label>
-            <input type="file" id="customFile" @change="onFileSelected"
+            <input type="file" @change="onFileSelected"
                    class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50">
           </div>
           <div class="col-span-1 shadow-xl flex justify-center">

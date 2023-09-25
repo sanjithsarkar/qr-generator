@@ -9,7 +9,7 @@
  * Version: 1.0
  */
 define('WPM_URL', plugin_dir_url(__FILE__));
-define('WPM_DIR', plugin_dir_path(__FILE__));
+define('QR_GENERATOR_DIR', plugin_dir_path(__FILE__));
 
 define('WPM_VERSION', '1.0.5');
 
@@ -28,11 +28,12 @@ class QrCodePlugin {
         $this->renderMenu();
         $this->disableUpdateNag();
         \WPPluginWithVueTailwind\Classes\Routes::init();
+        \WPPluginWithVueTailwind\Classes\CustomRoute::customRule();
     }
 
     public function loadClasses()
     {
-        require WPM_DIR . 'includes/autoload.php';
+        require QR_GENERATOR_DIR . 'includes/autoload.php';
     }
 
     public function renderMenu()
@@ -77,7 +78,8 @@ class QrCodePlugin {
         $WPWVT = apply_filters('WPWVT/admin_app_vars', array(
             'assets_url' => WPM_URL . 'assets/',
             'ajaxurl' => admin_url('admin-ajax.php'),
-            'resturl' => site_url('wp-json/'.QR_GENERATOR_SLUG.'/api/')
+            'resturl' => site_url('wp-json/'.QR_GENERATOR_SLUG.'/api/'),
+            'site_url' => site_url(),
         ));
 
         wp_localize_script('WPWVT-script-boot', 'qr_generator', $WPWVT);
@@ -115,7 +117,7 @@ class QrCodePlugin {
     {
         //activation deactivation hook
         register_activation_hook(__FILE__, function ($newWorkWide) {
-            require_once(WPM_DIR . 'includes/Classes/Activator.php');
+            require_once(QR_GENERATOR_DIR . 'includes/Classes/Activator.php');
             $activator = new \WPPluginWithVueTailwind\Classes\Activator();
             $activator->migrateDatabases($newWorkWide);
         });
@@ -123,3 +125,5 @@ class QrCodePlugin {
 }
 
 (new QrCodePlugin())->boot();
+
+
