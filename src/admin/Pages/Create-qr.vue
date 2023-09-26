@@ -34,6 +34,13 @@ const insertData = () => {
   <div class="grid grid-cols-1 md:grid-cols-4 gap-4 pr-4">
 
     <div class="col-span-full md:col-span-3">
+
+      <div class="grid grid-rows-1 mt-4">
+        <div class="row-span-full flex justify-center">
+          <h3 class="text-lg bg-blue-600 p-2 rounded text-white">Insert Data</h3>
+        </div>
+      </div>
+
       <form @submit.prevent="insertData" enctype="multipart/form-data">
         <div>
           <label for="first_name" class="block mb-2 text-sm font-medium text-gray-900">QR name</label>
@@ -131,7 +138,7 @@ const insertData = () => {
 
         <div class="grid grid-rows-1 mt-4">
           <div class="row-span-full flex justify-center">
-            <button type="submit" class="bg-blue-600 p-2 rounded text-white">Next</button>
+            <button type="submit" class="bg-blue-600 p-2 rounded text-white">Save</button>
           </div>
         </div>
       </form>
