@@ -2,6 +2,7 @@
 
 import {ref} from "vue";
 import axios from "axios";
+import Swal from 'sweetalert2';
 
 const form = ref({});
 
@@ -18,7 +19,12 @@ const insertData = () => {
 
   axios.post(window.qr_generator.resturl +'insert', form.value)
       .then((res) => {
-        alert("Data inserted successfully");
+        // alert("Data inserted successfully");
+        Swal.fire(
+            'Good job!',
+            'Data inserted successfully!',
+            'success'
+        )
         form.value = {};
         // form.reset();
       })
@@ -144,7 +150,11 @@ const insertData = () => {
       </form>
     </div>
 
-    <div class="col-span-full md:col-span-1 bg-blue-600">2</div>
+    <div class="col-span-full md:col-span-1 bg-gray-300">
+      <div class="w-full flex justify-center mt-10">
+        <span class="text-lg">Display View</span>
+      </div>
+    </div>
 
   </div>
 </template>
