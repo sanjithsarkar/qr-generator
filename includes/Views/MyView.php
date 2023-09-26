@@ -75,19 +75,19 @@ mysqli_close($conn);
                                 <table class="w-full table-fixed">
                                     <tbody>
                                     <tr class="bg-gray-100">
-                                        <td class="w-1/2 py-2 px-4 font-semibold">Name</td>
+                                        <td class="w-1/2 py-2 px-4 font-semibold pl-12">Name</td>
                                         <td class="w-1/2 py-2 px-4"><?php echo $user_data['name']; ?></td>
                                     </tr>
                                     <tr>
-                                        <td class="w-1/2 py-2 px-4 font-semibold">Email</td>
+                                        <td class="w-1/2 py-2 px-4 font-semibold pl-12">Email</td>
                                         <td class="w-1/2 py-2 px-4"><?php echo $user_data['email']; ?></td>
                                     </tr>
                                     <tr class="bg-gray-100">
-                                        <td class="w-1/2 py-2 px-4 font-semibold">Mobile</td>
+                                        <td class="w-1/2 py-2 px-4 font-semibold pl-12">Mobile</td>
                                         <td class="w-1/2 py-2 px-4"><?php echo $user_data['mobile']; ?></td>
                                     </tr>
                                     <tr class="bg-gray-100">
-                                        <td class="w-1/2 py-2 px-4 font-semibold">Address</td>
+                                        <td class="w-1/2 py-2 px-4 font-semibold pl-12">Address</td>
                                         <td class="w-1/2 py-2 px-4"><?php echo $user_data['address']; ?></td>
                                     </tr>
                                     </tbody>
