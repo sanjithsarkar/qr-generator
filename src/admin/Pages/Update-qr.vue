@@ -3,6 +3,7 @@
 import {onMounted, ref} from "vue";
 import axios from "axios";
 import {useRoute} from "vue-router";
+import Swal from 'sweetalert2';
 
 const form = ref({});
 
@@ -32,7 +33,11 @@ const onFileSelected = (event) => {
   const updateData = () => {
     axios.post(window.qr_generator.resturl + 'update/' + id, form.value)
         .then((res) => {
-          alert("Data Updated Successfully");
+          Swal.fire(
+              'Good job!',
+              'Data Updated Successfully!',
+              'success'
+          )
         })
         .catch((error) => {
           console.error("Error:", error);

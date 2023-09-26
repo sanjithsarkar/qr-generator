@@ -26,7 +26,6 @@ const deleteData = (id) => {
     confirmButtonText: 'Yes, delete it!',
   }).then((result) => {
     if (result.isConfirmed) {
-      // User confirmed the deletion, proceed with axios delete request
       axios.delete(window.qr_generator.resturl + 'delete/' + id)
           .then((res) => {
             getData();
