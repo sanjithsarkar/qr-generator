@@ -33,8 +33,6 @@ const onFileSelected = (event) => {
     axios.post(window.qr_generator.resturl + 'update/' + id, form.value)
         .then((res) => {
           alert("Data Updated Successfully");
-          form.value = {};
-          // form.reset();
         })
         .catch((error) => {
           console.error("Error:", error);

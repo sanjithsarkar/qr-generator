@@ -52,11 +52,6 @@ class QrCodePlugin {
                 'dashicons-editor-code',
                 25
             );
-            $submenu['qr-generator.php']['dashboard'] = array(
-                'Dashboard',
-                'manage_options',
-                'admin.php?page=qr-generator.php#/',
-            );
             $submenu['qr-generator.php']['Create QR'] = array(
                 'Create QR',
                 'manage_options',
@@ -81,6 +76,9 @@ class QrCodePlugin {
             'resturl' => site_url('wp-json/'.QR_GENERATOR_SLUG.'/api/'),
             'site_url' => site_url(),
         ));
+
+//        var_dump(site_url());
+//        die();
 
         wp_localize_script('WPWVT-script-boot', 'qr_generator', $WPWVT);
 

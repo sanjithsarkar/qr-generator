@@ -27,21 +27,10 @@ const insertData = () => {
       });
 }
 
-
-const getData = () => {
-  axios.get(window.qr_generator.resturl + 'getdata/' + 1)
-}
-
-
 </script>
 
 <template>
 
-  <div class="grid grid-rows-1 mt-4">
-    <div class="row-span-full flex justify-center">
-      <button @click="getData" class="bg-blue-600 p-2 rounded text-white">Get Data</button>
-    </div>
-  </div>
   <div class="grid grid-cols-1 md:grid-cols-4 gap-4 pr-4">
 
     <div class="col-span-full md:col-span-3">
