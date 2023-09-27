@@ -44,6 +44,38 @@ const getViewUrl = (id) => {
   return window.qr_generator.site_url + '/qrcode/' + id;
 }
 
+// ---------------- Download QR Code ---------------------
+
+
+const downloadQRCode = (id) => {
+  const link = document.createElement('a');
+  link.href = getViewUrl(id);
+  link.download = 'qrcode.png';
+  link.click();
+}
+
+const copyQRLink = (id) => {
+
+  const qrLink = getViewUrl(id);
+
+  navigator.clipboard.writeText(qrLink)
+      .then(() => {
+        Swal.fire({
+          icon: 'success',
+          title: 'Text Copied',
+          text: 'The link has been copied to the clipboard.',
+        });
+      })
+      .catch((error) => {
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: 'Unable to copy QR link to clipboard.',
+        });
+      });
+}
+
+
 onMounted(() => {
   getData();
 })
@@ -113,14 +145,25 @@ onMounted(() => {
         </td>
 
         <td class="px-6 py-4">
-          <div class="flex justify-center">
-            <VueQrcode :value="getViewUrl(item.id)" :size="150" :width="80"></VueQrcode>
+          <div class="flex flex-col items-center justify-center">
+            <!-- VueQrcode -->
+            <VueQrcode :value="getViewUrl(item.id)" :size="100" :width="80" class="mb-4" />
+
+            <!-- qrcode -->
+            <div>
+                <button @click="downloadQRCode(item.id)" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded" >Download</button>
+            </div>
+
           </div>
         </td>
 
         <td class="px-6 py-4">
-          <div class="flex justify-center">
-            <a :href="getViewUrl(item.id)" target="_blank">{{ getViewUrl(item.id) }}</a>
+          <div class="flex flex-col items-center justify-center">
+            <a :href="getViewUrl(item.id)" target="_blank" class="mb-6" id="copyLink">{{ getViewUrl(item.id) }}</a>
+
+            <button type="button" @click="copyQRLink(item.id)" class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded">
+              Copy Link
+            </button>
           </div>
         </td>
 

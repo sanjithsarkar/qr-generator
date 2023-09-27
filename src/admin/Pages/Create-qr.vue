@@ -98,21 +98,21 @@ const insertData = () => {
               <label for="success" class="block mb-2 text-sm font-medium text-gray-900">Name</label>
               <input type="text" v-model="form.name" placeholder="Name"
                      class="block w-full text-sm text-gray-900 border border-gray-300 bg-gray-50">
-              <small class="text-red-700 text-sm" v-if="errors"> {{ errors[0] }} </small>
+              <small class="text-red-700 text-sm" v-if="errors"> {{ errors[1] }} </small>
             </div>
 
             <div class="col-span-1">
               <label for="success" class="block mb-2 text-sm font-medium text-gray-900">Surname</label>
               <input type="text" v-model="form.surname" placeholder="Surname"
                      class="block w-full text-sm text-gray-900 border border-gray-300 bg-gray-50">
-              <small class="text-red-700 text-sm" v-if="errors"> {{ errors[0] }} </small>
+              <small class="text-red-700 text-sm" v-if="errors"> {{ errors[2] }} </small>
             </div>
 
             <div class="col-span-1">
               <label for="success" class="block mb-2 text-sm font-medium text-gray-900">Title</label>
               <input type="text" v-model="form.title" placeholder="Title"
                      class="block w-full text-sm text-gray-900 border border-gray-300 bg-gray-50">
-              <small class="text-red-700 text-sm" v-if="errors"> {{ errors[0] }} </small>
+              <small class="text-red-700 text-sm" v-if="errors"> {{ errors[3] }} </small>
             </div>
           </div>
         </div>
@@ -127,14 +127,14 @@ const insertData = () => {
               <label for="success" class="block mb-2 text-sm font-medium text-gray-900">Mobile</label>
               <input type="number" v-model="form.mobile" placeholder="Mobile Number"
                      class="block w-full text-sm text-gray-900 border border-gray-3 bg-gray-50">
-              <small class="text-red-700 text-sm" v-if="errors"> {{ errors[0] }} </small>
+              <small class="text-red-700 text-sm" v-if="errors"> {{ errors[4] }} </small>
             </div>
 
             <div class="col-span-1">
               <label for="success" class="block mb-2 text-sm font-medium text-gray-900">Email</label>
               <input type="email" v-model="form.email" placeholder="Email"
                      class="block w-full text-sm text-gray-900 border border-gray-300 bg-gray-50">
-              <small class="text-red-700 text-sm" v-if="errors[0]"> {{ errors[0] }} </small>
+              <small class="text-red-700 text-sm" v-if="errors[0]"> {{ errors[5] }} </small>
             </div>
           </div>
         </div>
@@ -148,7 +148,7 @@ const insertData = () => {
             <label for="success" class="block mb-2 text-sm font-medium text-gray-900">Address</label>
             <input type="text" v-model="form.address" placeholder="Address"
                    class="block w-full text-sm text-gray-900 border border-gray-300 bg-gray-50">
-            <small class="text-red-700 text-sm" v-if="errors"> {{ errors[0] }} </small>
+            <small class="text-red-700 text-sm" v-if="errors"> {{ errors[6] }} </small>
           </div>
         </div>
 

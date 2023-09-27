@@ -8,21 +8,6 @@ use WPPluginWithVueTailwind\Classes\Activator;
 
 class QrCodeController
 {
-    public function test($params)
-    {
-        $posts = get_posts(array(
-            'author' => $params['id'],
-        ));
-
-        if (empty($posts)) {
-            return 'post not found';
-        }
-
-        return $posts[0];
-    }
-
-
-
 
 
 // ------------------------   Insert data ------------------

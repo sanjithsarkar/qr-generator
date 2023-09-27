@@ -53,7 +53,7 @@ mysqli_close($conn);
                                     <div class=" rounded-full p-2 mx-auto">
 
                                         <img src="<?php echo WPM_URL . 'assets/images/' . $user_data['image']; ?>"
-                                             alt="No Image" class="block w-32 h-32 mx-auto rounded-lg">
+                                             alt="No Image" class="block w-32 h-32 mx-auto rounded-full">
 
                                     </div>
                                     <div class="text-center mt-4">
