@@ -3,35 +3,139 @@
 import {ref} from "vue";
 import axios from "axios";
 import Swal from 'sweetalert2';
+import {useRouter} from 'vue-router';
+import { defineProps, defineEmits, onMounted } from "vue";
 
 const form = ref({});
-
+const errors = ref({});
 const imageUrl = ref(null);
+const router = useRouter();
 
 const onFileSelected = (event) => {
-  form.image = event.target.files[0];
-  imageUrl.value = URL.createObjectURL(form.image);
+  form.value.image = event.target.files[0];
+  imageUrl.value = URL.createObjectURL(form.value.image);
 };
+
+// const insertData = () => {
+//
+//   let formData = new FormData();
+//   formData.append('image', form.value.image);
+//
+//   axios.post(window.qr_generator.resturl + 'insert', form.value)
+//       .then((res) => {
+//         if (res.data.status === 'error') {
+//           errors.value = res.data.errors;
+//           console.log(errors.value);
+//         } else if (res.data.status === 'success') {
+//           Swal.fire(
+//               'Good job!',
+//               'Data inserted successfully!',
+//               'success'
+//           )
+//           router.push({path: '/my-qr'});
+//         }
+//
+//         form.value = {};
+//         // form.reset();
+//       })
+//       .catch((error) => {
+//         errors.value = res.response.data.errors;
+//       });
+// }
+
+
+
+
 const insertData = () => {
 
   let formData = new FormData();
   formData.append('image', form.value.image);
 
-  axios.post(window.qr_generator.resturl +'insert', form.value)
+  axios.post(window.qr_generator.resturl + 'insert', formData, {
+    params: form.value
+  })
       .then((res) => {
-        // alert("Data inserted successfully");
-        Swal.fire(
-            'Good job!',
-            'Data inserted successfully!',
-            'success'
-        )
+        if (res.data.status === 'error') {
+          errors.value = res.data.errors;
+          console.log(errors.value);
+        } else if (res.data.status === 'success') {
+          Swal.fire(
+              'Good job!',
+              'Data inserted successfully!',
+              'success'
+          )
+          router.push({path: '/my-qr'});
+        }
+
+        alert("done")
+
         form.value = {};
         // form.reset();
       })
       .catch((error) => {
-        console.error("Error:", error);
+        // errors.value = error.response.data.errors;
       });
 }
+
+
+// ======================================
+
+
+
+// const props = defineProps({
+//   multiple:false,
+//   title:{
+//     default:'Add Media'
+//   },
+//   action_title:{
+//     default:'Use This Media'
+//   },
+//
+//   size:{
+//     default:'medium'
+//   },
+// })
+//
+// let mediaFrame = null;
+// const emit = defineEmits(['onMediaSelected'])
+//
+// const openMediaFrame = () => {
+//   if (mediaFrame == null) {
+//     return
+//   }
+//   mediaFrame.open();
+//
+// }
+//
+//
+// onMounted(() => {
+//
+//   if (!typeof window.wp.media === 'function') {
+//     return
+//   }
+//
+//
+//   mediaFrame = window.wp.media({
+//     title: 'Select or Upload Media Of Your Chosen Persuasion',
+//     button: {
+//       text: props.action_title
+//     },
+//     library: {
+//       type: 'image'
+//     },
+//     multiple: props.multiple,  // Set to true to allow multiple files to be selected
+//   });
+//   listenForMediaChange();
+//
+// })
+//
+// const listenForMediaChange = () => {
+//   mediaFrame.on('select', function () {
+//     const attachments = mediaFrame.state().get('selection').toJSON()
+//     emit('onMediaSelected', attachments)
+//   })
+// }
+
 
 </script>
 
@@ -47,32 +151,21 @@ const insertData = () => {
         </div>
       </div>
 
+      <!--      <div v-if="errors.length > 0" class="error-message">-->
+      <!--        <ul>-->
+      <!--          <li v-for="error in errors" :key="error">{{ error }}</li>-->
+      <!--        </ul>-->
+      <!--      </div>-->
+
+
       <form @submit.prevent="insertData" enctype="multipart/form-data">
         <div>
           <label for="first_name" class="block mb-2 text-sm font-medium text-gray-900">QR name</label>
           <input type="text" id="first_name" v-model="form.qr_name"
                  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                  placeholder="John">
+          <small class="text-red-700 text-sm" v-if="errors"> {{ errors[0] }} </small>
         </div>
-
-
-        <!--      <div class="max-w-full p-6 bg-white border border-gray-200 rounded-lg shadow mt-6">-->
-        <!--        <div class="grid grid-rows-1">-->
-        <!--          <div class="grid grid-cols-3 gap-3">-->
-        <!--            <div class="col-span-1 shadow bg-gray-200">-->
-        <!--              1-->
-        <!--            </div>-->
-
-        <!--            <div class="col-span-1 shadow bg-gray-200">-->
-        <!--              1-->
-        <!--            </div>-->
-
-        <!--            <div class="col-span-1 shadow bg-gray-200">-->
-        <!--              1-->
-        <!--            </div>-->
-        <!--          </div>-->
-        <!--        </div>-->
-        <!--      </div>-->
 
         <div class="text-left mt-3 mb-2">
           <h3 class="text-lg">VCard Information</h3>
@@ -84,7 +177,8 @@ const insertData = () => {
                    class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50">
           </div>
           <div class="col-span-1 shadow-xl flex justify-center">
-            <img class="h-[50px] max-w-xl rounded-full w-96 h-96" :src="imageUrl" v-if="imageUrl" style="height: 55px; width: 65px;" alt="Not Found">
+            <img class="h-[50px] max-w-xl rounded-full w-96 h-96" :src="imageUrl" v-if="imageUrl"
+                 style="height: 55px; width: 65px;" alt="Not Found">
           </div>
         </div>
 
@@ -94,18 +188,21 @@ const insertData = () => {
               <label for="success" class="block mb-2 text-sm font-medium text-gray-900">Name</label>
               <input type="text" v-model="form.name" placeholder="Name"
                      class="block w-full text-sm text-gray-900 border border-gray-300 bg-gray-50">
+              <small class="text-red-700 text-sm" v-if="errors"> {{ errors[0] }} </small>
             </div>
 
             <div class="col-span-1">
               <label for="success" class="block mb-2 text-sm font-medium text-gray-900">Surname</label>
               <input type="text" v-model="form.surname" placeholder="Surname"
                      class="block w-full text-sm text-gray-900 border border-gray-300 bg-gray-50">
+              <small class="text-red-700 text-sm" v-if="errors"> {{ errors[0] }} </small>
             </div>
 
             <div class="col-span-1">
               <label for="success" class="block mb-2 text-sm font-medium text-gray-900">Title</label>
               <input type="text" v-model="form.title" placeholder="Title"
                      class="block w-full text-sm text-gray-900 border border-gray-300 bg-gray-50">
+              <small class="text-red-700 text-sm" v-if="errors"> {{ errors[0] }} </small>
             </div>
           </div>
         </div>
@@ -120,12 +217,14 @@ const insertData = () => {
               <label for="success" class="block mb-2 text-sm font-medium text-gray-900">Mobile</label>
               <input type="number" v-model="form.mobile" placeholder="Mobile Number"
                      class="block w-full text-sm text-gray-900 border border-gray-3 bg-gray-50">
+              <small class="text-red-700 text-sm" v-if="errors"> {{ errors[0] }} </small>
             </div>
 
             <div class="col-span-1">
               <label for="success" class="block mb-2 text-sm font-medium text-gray-900">Email</label>
               <input type="email" v-model="form.email" placeholder="Email"
                      class="block w-full text-sm text-gray-900 border border-gray-300 bg-gray-50">
+              <small class="text-red-700 text-sm" v-if="errors[0]"> {{ errors[0] }} </small>
             </div>
           </div>
         </div>
@@ -139,6 +238,7 @@ const insertData = () => {
             <label for="success" class="block mb-2 text-sm font-medium text-gray-900">Address</label>
             <input type="text" v-model="form.address" placeholder="Address"
                    class="block w-full text-sm text-gray-900 border border-gray-300 bg-gray-50">
+            <small class="text-red-700 text-sm" v-if="errors"> {{ errors[0] }} </small>
           </div>
         </div>
 
