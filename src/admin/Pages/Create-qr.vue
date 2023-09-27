@@ -88,6 +88,7 @@ const insertData = () => {
           <div class="col-span-1 shadow-xl flex justify-center">
             <img class="h-[50px] max-w-xl rounded-full w-96 h-96" :src="imageUrl" v-if="imageUrl"
                  style="height: 55px; width: 65px;" alt="Not Found">
+              <span v-else="" class="flex justify-center items-center">View Image</span>
           </div>
         </div>
 

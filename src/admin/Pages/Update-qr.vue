@@ -62,7 +62,7 @@ const onFileSelected = (event) => {
 
       <div class="grid grid-rows-1 mt-4">
         <div class="row-span-full flex justify-center">
-          <h3 class="text-lg bg-blue-600 p-2 rounded text-white">Update Data</h3>
+          <h3 class="text-lg bg-blue-600 px-4 py-2 rounded text-white">Update Data</h3>
         </div>
       </div>
 
@@ -85,6 +85,7 @@ const onFileSelected = (event) => {
           </div>
           <div class="col-span-1 shadow-xl flex justify-center">
             <img class="h-[50px] max-w-xl rounded-full" :src="imageUrl" v-if="imageUrl" style="height: 50px; width: 60px;" alt="Not Found">
+            <span v-else="" class="flex justify-center items-center">View Image</span>
           </div>
         </div>
 
@@ -144,7 +145,7 @@ const onFileSelected = (event) => {
 
         <div class="grid grid-rows-1 mt-4">
           <div class="row-span-full flex justify-center">
-            <button type="submit" class="bg-green-700 p-2 rounded text-white">Update</button>
+            <button type="submit" class="bg-green-700 px-4 py-2 rounded text-white">Update</button>
           </div>
         </div>
       </form>
