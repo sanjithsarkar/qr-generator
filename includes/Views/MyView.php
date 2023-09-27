@@ -51,8 +51,10 @@ mysqli_close($conn);
                             <div class="flex justify-center">
                                 <div class="w-full py-6">
                                     <div class=" rounded-full p-2 mx-auto">
-                                        <img src="https://example.com/path-to-your-image/avatar-15.png" alt=""
-                                             class="block w-32 h-32 mx-auto">
+
+                                        <img src="<?php echo WPM_URL . 'assets/images/' . $user_data['image']; ?>"
+                                             alt="No Image" class="block w-32 h-32 mx-auto rounded-lg">
+
                                     </div>
                                     <div class="text-center mt-4">
                                         <span class="text-lg font-semibold"><?php echo $user_data['name']; ?></span>

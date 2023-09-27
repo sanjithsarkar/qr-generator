@@ -66,9 +66,6 @@ const insertData = () => {
           )
           router.push({path: '/my-qr'});
         }
-
-        alert("done")
-
         form.value = {};
         // form.reset();
       })

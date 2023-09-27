@@ -142,6 +142,10 @@ class QrCodeController
 
         $results = $wpdb->get_results($sql);
 
+        foreach ($results as $result){
+            $result->image_url = WPM_URL . 'assets/images/';
+    }
+
         if (is_array($results) && count($results)) {
             wp_send_json_success([
                 'data' => $results[0]
@@ -223,7 +227,7 @@ class QrCodeController
         $address = isset($params['address']) ? sanitize_text_field($params['address']) : '';
 
 
-        $required_fields = array('qr_name', 'name', 'surname', 'title', 'email', 'mobile', 'address');
+        $required_fields = array('qr_name', 'name', 'surname', 'title', 'email', 'mobile', 'address', 'image');
         foreach ($required_fields as $field) {
             if (empty($params[$field])) {
                 $validation_errors[] = 'Make sure to fill out the required field: ' . $field;
@@ -248,7 +252,7 @@ class QrCodeController
 //            mkdir('documents', 0777, true);
 //        }
 
-        $FolderUrl = dirname(__FILE__) . '/documents/';
+        $FolderUrl = QR_GENERATOR_DIR . '/assets/images/';
 
         if (!file_exists($FolderUrl)) {
             mkdir($FolderUrl, 0777, true);
@@ -256,15 +260,17 @@ class QrCodeController
 
         define('UPLOADS_THEME_PATH', $FolderUrl);
 
-        $tmp_name = $_FILES['image']['tmp_name'];
+        $file_name = null;
 
-        $path_array = wp_upload_dir(); // normal format start
-        $file_name =time() . "." .  pathinfo($_FILES['image']['name'] , PATHINFO_EXTENSION);
-        $imgtype = strtolower(pathinfo($tmp_name, PATHINFO_EXTENSION));
-        $targetpath = UPLOADS_THEME_PATH  . $file_name;
+        if (isset($_FILES['image'])){
+            $tmp_name = $_FILES['image']['tmp_name'];
 
-        move_uploaded_file($tmp_name, $targetpath);
+            $file_extension = pathinfo($_FILES['image']['name'], PATHINFO_EXTENSION);
+            $file_name = time() . "." . $file_extension;
+            $targetpath = UPLOADS_THEME_PATH  . $file_name;
 
+            move_uploaded_file($tmp_name, $targetpath);
+        }
 
         $userId = get_current_user_id();
         $current_user_email = $current_user->email;
