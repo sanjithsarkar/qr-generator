@@ -6,7 +6,7 @@ import Swal from 'sweetalert2';
 
 const tableData = ref({});
 
-//
+//----------------------- Display All Data ---------------------------
 const getData = () => {
   axios.get(window.qr_generator.resturl + 'get/data')
       .then((res) => {
@@ -15,6 +15,7 @@ const getData = () => {
 }
 
 
+// ---------------------- Delete data by id --------------------
 const deleteData = (id) => {
   Swal.fire({
     title: 'Confirm Deletion',
@@ -37,14 +38,11 @@ const deleteData = (id) => {
   });
 }
 
+
+// ------------------------ Data view url ---------------------------
 const getViewUrl = (id) => {
   return window.qr_generator.site_url + '/qrcode/' + id;
 }
-
-// const qrCodeUrl = (id) => {
-//     return window.qr_generator.site_url +'/qrcode/'+id;
-//   };
-
 
 onMounted(() => {
   getData();

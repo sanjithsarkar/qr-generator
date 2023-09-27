@@ -4,13 +4,15 @@ namespace WPPluginWithVueTailwind\Classes;
 
 class CustomRoute
 {
-    public static function customRule(){
-        add_action('init', function (){
+    public static function customRule()
+    {
+        add_action('init', function () {
             (new static())->customRoutes();
         });
     }
 
-    public function customRoutes(){
+    public function customRoutes()
+    {
 
         add_rewrite_rule(
             'qrcode/([^/]+)/?$',
@@ -19,18 +21,18 @@ class CustomRoute
         );
 
 
-        add_filter( 'query_vars', function( $query_vars ) {
+        add_filter('query_vars', function ($query_vars) {
             $query_vars[] = 'qr_id';
             return $query_vars;
-        } );
+        });
 
 
-        add_action( 'template_include', function( $template ) {
-            if ( get_query_var( 'qr_id' ) == false || get_query_var( 'qr_id' ) == '' ) {
+        add_action('template_include', function ($template) {
+            if (get_query_var('qr_id') == false || get_query_var('qr_id') == '') {
                 return $template;
             }
 
-            return QR_GENERATOR_DIR.DIRECTORY_SEPARATOR.'includes'.DIRECTORY_SEPARATOR.'Views'.DIRECTORY_SEPARATOR.'MyView.php';
-        } );
+            return QR_GENERATOR_DIR . DIRECTORY_SEPARATOR . 'includes' . DIRECTORY_SEPARATOR . 'Views' . DIRECTORY_SEPARATOR . 'MyView.php';
+        });
     }
 }

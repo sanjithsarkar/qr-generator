@@ -77,8 +77,6 @@ class QrCodePlugin {
             'site_url' => site_url(),
         ));
 
-//        var_dump(QR_GENERATOR_DIR);
-//        die();
 
         wp_localize_script('WPWVT-script-boot', 'qr_generator', $WPWVT);
 

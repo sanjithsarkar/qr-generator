@@ -26,12 +26,19 @@ onMounted(() => {
 const imageUrl = ref(null);
 
 const onFileSelected = (event) => {
-  form.image = event.target.files[0];
-  imageUrl.value = URL.createObjectURL(form.image);
-}
+  form.value.image = event.target.files[0];
+  imageUrl.value = URL.createObjectURL(form.value.image);
+};
 
   const updateData = () => {
-    axios.post(window.qr_generator.resturl + 'update/' + id, form.value)
+
+    let formData = new FormData();
+    formData.append('image', form.value.image);
+    formData.append('_method', 'PUT');
+
+    axios.post(window.qr_generator.resturl + 'update/' + id, formData, {
+      params: form.value
+    })
         .then((res) => {
           Swal.fire(
               'Good job!',
@@ -77,7 +84,7 @@ const onFileSelected = (event) => {
                    class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50">
           </div>
           <div class="col-span-1 shadow-xl flex justify-center">
-            <img class="h-[50px] max-w-xl rounded-lg" :src="imageUrl" v-if="imageUrl" style="height: 60px; width: 70px;" alt="Not Found">
+            <img class="h-[50px] max-w-xl rounded-full" :src="imageUrl" v-if="imageUrl" style="height: 50px; width: 60px;" alt="Not Found">
           </div>
         </div>
 
@@ -143,7 +150,11 @@ const onFileSelected = (event) => {
       </form>
     </div>
 
-    <div class="col-span-full md:col-span-1 bg-blue-600">2</div>
+    <div class="col-span-full md:col-span-1 bg-gray-300">
+      <div class="w-full flex justify-center mt-10">
+        <span class="text-lg">Display View</span>
+      </div>
+    </div>
 
   </div>
 </template>

@@ -4,7 +4,7 @@ import {ref} from "vue";
 import axios from "axios";
 import Swal from 'sweetalert2';
 import {useRouter} from 'vue-router';
-import { defineProps, defineEmits, onMounted } from "vue";
+import {defineProps, defineEmits, onMounted} from "vue";
 
 const form = ref({});
 const errors = ref({});
@@ -16,36 +16,8 @@ const onFileSelected = (event) => {
   imageUrl.value = URL.createObjectURL(form.value.image);
 };
 
-// const insertData = () => {
-//
-//   let formData = new FormData();
-//   formData.append('image', form.value.image);
-//
-//   axios.post(window.qr_generator.resturl + 'insert', form.value)
-//       .then((res) => {
-//         if (res.data.status === 'error') {
-//           errors.value = res.data.errors;
-//           console.log(errors.value);
-//         } else if (res.data.status === 'success') {
-//           Swal.fire(
-//               'Good job!',
-//               'Data inserted successfully!',
-//               'success'
-//           )
-//           router.push({path: '/my-qr'});
-//         }
-//
-//         form.value = {};
-//         // form.reset();
-//       })
-//       .catch((error) => {
-//         errors.value = res.response.data.errors;
-//       });
-// }
 
-
-
-
+// ------------------------------- Insert Data ------------------------------
 const insertData = () => {
 
   let formData = new FormData();
@@ -70,69 +42,9 @@ const insertData = () => {
         // form.reset();
       })
       .catch((error) => {
-        // errors.value = error.response.data.errors;
+        errors.value = error.response.data.errors;
       });
 }
-
-
-// ======================================
-
-
-
-// const props = defineProps({
-//   multiple:false,
-//   title:{
-//     default:'Add Media'
-//   },
-//   action_title:{
-//     default:'Use This Media'
-//   },
-//
-//   size:{
-//     default:'medium'
-//   },
-// })
-//
-// let mediaFrame = null;
-// const emit = defineEmits(['onMediaSelected'])
-//
-// const openMediaFrame = () => {
-//   if (mediaFrame == null) {
-//     return
-//   }
-//   mediaFrame.open();
-//
-// }
-//
-//
-// onMounted(() => {
-//
-//   if (!typeof window.wp.media === 'function') {
-//     return
-//   }
-//
-//
-//   mediaFrame = window.wp.media({
-//     title: 'Select or Upload Media Of Your Chosen Persuasion',
-//     button: {
-//       text: props.action_title
-//     },
-//     library: {
-//       type: 'image'
-//     },
-//     multiple: props.multiple,  // Set to true to allow multiple files to be selected
-//   });
-//   listenForMediaChange();
-//
-// })
-//
-// const listenForMediaChange = () => {
-//   mediaFrame.on('select', function () {
-//     const attachments = mediaFrame.state().get('selection').toJSON()
-//     emit('onMediaSelected', attachments)
-//   })
-// }
-
 
 </script>
 
@@ -144,7 +56,7 @@ const insertData = () => {
 
       <div class="grid grid-rows-1 mt-4">
         <div class="row-span-full flex justify-center">
-          <h3 class="text-lg bg-blue-600 p-2 rounded text-white">Insert Data</h3>
+          <h3 class="text-lg bg-blue-600 px-4 py-2 rounded text-white">Insert Data</h3>
         </div>
       </div>
 
@@ -241,7 +153,7 @@ const insertData = () => {
 
         <div class="grid grid-rows-1 mt-4">
           <div class="row-span-full flex justify-center">
-            <button type="submit" class="bg-blue-600 p-2 rounded text-white">Save</button>
+            <button type="submit" class="bg-green-700 py-2 px-4 rounded text-white text-sm">Insert</button>
           </div>
         </div>
       </form>
