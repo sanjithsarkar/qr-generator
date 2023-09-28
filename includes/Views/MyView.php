@@ -39,8 +39,8 @@ mysqli_close($conn);
     <div class="bg-white py-8">
         <div class="max-w-screen-md mx-auto">
             <div class="bg-white shadow-lg rounded-lg">
-                <div class="bg-blue-500 text-white py-4 px-6 rounded-t-lg">
-                    <h3 class="text-2xl font-semibold">User Profile</h3>
+                <div class="bg-black text-white py-4 px-6 rounded-t-lg">
+                    <h3 class="text-2xl font-semibold">View Profile</h3>
                 </div>
                 <div class="py-10">
                     <div class="grid grid-cols-5">
@@ -80,7 +80,7 @@ mysqli_close($conn);
                                         <td class="w-1/2 py-2 px-4 font-semibold pl-12">Name</td>
                                         <td class="w-1/2 py-2 px-4"><?php echo $user_data['name']; ?></td>
                                     </tr>
-                                    <tr>
+                                    <tr class="bg-gray-50">
                                         <td class="w-1/2 py-2 px-4 font-semibold pl-12">Email</td>
                                         <td class="w-1/2 py-2 px-4"><?php echo $user_data['email']; ?></td>
                                     </tr>
@@ -88,7 +88,7 @@ mysqli_close($conn);
                                         <td class="w-1/2 py-2 px-4 font-semibold pl-12">Mobile</td>
                                         <td class="w-1/2 py-2 px-4"><?php echo $user_data['mobile']; ?></td>
                                     </tr>
-                                    <tr class="bg-gray-100">
+                                    <tr class="bg-gray-50">
                                         <td class="w-1/2 py-2 px-4 font-semibold pl-12">Address</td>
                                         <td class="w-1/2 py-2 px-4"><?php echo $user_data['address']; ?></td>
                                     </tr>

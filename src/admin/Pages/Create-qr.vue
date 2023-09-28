@@ -56,7 +56,7 @@ const insertData = () => {
 
       <div class="grid grid-rows-1 mt-4">
         <div class="row-span-full flex justify-center">
-          <h3 class="text-lg bg-blue-600 px-4 py-2 rounded text-white">Insert Data</h3>
+          <h3 class="text-lg bg-black px-4 py-2 rounded text-white">Insert Data</h3>
         </div>
       </div>
 
