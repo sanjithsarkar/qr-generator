@@ -22,7 +22,6 @@ package-lock.json
 node_modules
 svn/*
 dist/
-assets/*
 !assets/index.php
 package-lock.json
 app/Views/public/Js/*
