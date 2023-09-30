@@ -45,19 +45,6 @@ const getViewUrl = (id) => {
 }
 
 
-// ---------------- Download QR Code ---------------------
-
-const qrCodeSvg = ref(null);
-
-onMounted(() => {
-  qrCodeSvg.value = document.querySelector('svg');
-});
-
-// Clean up the resources when the component is unmounted
-onUnmounted(() => {
-  qrCodeSvg.value = null;
-});
-
 // ---------------- Copy Link ---------------------
 
 const copyQRLink = (id) => {
