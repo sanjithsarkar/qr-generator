@@ -153,10 +153,6 @@ class QrCodeController
 
         $results = $wpdb->get_results($sql);
 
-//        foreach ($results as $result) {
-//            $result->image_url = WPM_URL . 'assets/images/' . $result->image;
-//        }
-
         foreach ($results as $result) {
             $result->image_url = WPM_URL . 'assets/images/' . $result->image;
         }
