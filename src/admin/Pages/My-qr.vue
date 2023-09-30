@@ -58,19 +58,6 @@ onUnmounted(() => {
   qrCodeSvg.value = null;
 });
 
-const downloadQRCode = (id) => {
-
-  const link = document.createElement('a');
-  link.href = getViewUrl(id);
-  link.download = 'qrcode.png';
-  link.style.display = 'none';
-  document.body.appendChild(link);
-  link.click();
-  document.body.removeChild(link);
-
-}
-
-
 // ---------------- Copy Link ---------------------
 
 const copyQRLink = (id) => {
@@ -237,19 +224,6 @@ onMounted(() => {
                 </button>
               </div>
             </div>
-
-
-
-            <!---------------- Download QR ------------->
-            <button @click="downloadQRCode(item.id)"
-                    class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-2 mr-3 rounded">
-              <svg class="w-4 h-4 text-gray-800" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
-                   viewBox="0 0 16 18">
-                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                      d="M8 1v11m0 0 4-4m-4 4L4 8m11 4v3a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2v-3"/>
-              </svg>
-            </button>
-
 
             <!---------------- Copy Link ------------->
             <button type="button" @click="copyQRLink(item.id)"

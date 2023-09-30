@@ -145,7 +145,7 @@ class QrCodeController
 
         $table_name = $wpdb->prefix . 'userdata';
 
-        $columns = ['id', 'qr_name', 'name', 'surname', 'title', 'email', 'mobile', 'address'];
+        $columns = ['id', 'qr_name', 'name', 'surname', 'title', 'email', 'mobile', 'address', 'image'];
 
         $sql = $wpdb->prepare(
             "SELECT " . implode(', ', $columns) . " FROM $table_name WHERE id = %d",
@@ -153,9 +153,14 @@ class QrCodeController
 
         $results = $wpdb->get_results($sql);
 
+//        foreach ($results as $result) {
+//            $result->image_url = WPM_URL . 'assets/images/' . $result->image;
+//        }
+
         foreach ($results as $result) {
-            $result->image_url = WPM_URL . 'assets/images/';
+            $result->image_url = WPM_URL . 'assets/images/' . $result->image;
         }
+
 
         if (is_array($results) && count($results)) {
             wp_send_json_success([

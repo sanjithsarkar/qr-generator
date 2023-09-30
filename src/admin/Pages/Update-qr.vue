@@ -12,7 +12,6 @@ const getData = () => {
   axios.get(window.qr_generator.resturl + 'get/data/' + id)
       .then((res) => {
         form.value = res.data.data.data;
-        console.log(form.value);
       })
       .catch((error) => {
         console.error('Error fetching data:', error);
@@ -84,8 +83,8 @@ const onFileSelected = (event) => {
                    class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50">
           </div>
           <div class="col-span-1 shadow-xl flex justify-center">
-            <img class="h-[50px] max-w-xl rounded-full" :src="imageUrl" v-if="imageUrl" style="height: 50px; width: 60px;" alt="Not Found">
-            <span v-else="" class="flex justify-center items-center">View Image</span>
+            <img class="h-[50px] max-w-xl rounded-full" :src="imageUrl" v-if="imageUrl" height="50" width="60" alt="Not Found">
+            <img v-else="" :src="form.image_url" class="flex justify-center items-center rounded-full" alt="Image" height="50" width="60">
           </div>
         </div>
 
