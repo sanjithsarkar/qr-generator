@@ -29,26 +29,26 @@ const onFileSelected = (event) => {
   imageUrl.value = URL.createObjectURL(form.value.image);
 };
 
-  const updateData = () => {
+const updateData = () => {
 
-    let formData = new FormData();
-    formData.append('image', form.value.image);
-    formData.append('_method', 'PUT');
+  let formData = new FormData();
+  formData.append('image', form.value.image);
+  formData.append('_method', 'PUT');
 
-    axios.post(window.qr_generator.resturl + 'update/' + id, formData, {
-      params: form.value
-    })
-        .then((res) => {
-          Swal.fire(
-              'Good job!',
-              'Data Updated Successfully!',
-              'success'
-          )
-        })
-        .catch((error) => {
-          console.error("Error:", error);
-        });
-  }
+  axios.post(window.qr_generator.resturl + 'update/' + id, formData, {
+    params: form.value
+  })
+      .then((res) => {
+        Swal.fire(
+            'Good job!',
+            'Data Updated Successfully!',
+            'success'
+        )
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+      });
+}
 
 
 </script>
@@ -83,8 +83,10 @@ const onFileSelected = (event) => {
                    class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50">
           </div>
           <div class="col-span-1 shadow-xl flex justify-center">
-            <img class="h-[50px] max-w-xl rounded-full" :src="imageUrl" v-if="imageUrl" height="50" width="60" alt="Not Found">
-            <img v-else="" :src="form.image_url" class="flex justify-center items-center rounded-full" alt="Image" height="50" width="60">
+            <img class="h-[50px] max-w-xl rounded-full" :src="imageUrl" v-if="imageUrl" height="50" width="60"
+                 alt="Not Found">
+            <img v-else="" :src="form.image_url" class="flex justify-center items-center rounded-full" alt="Image"
+                 height="50" width="60">
           </div>
         </div>
 
@@ -150,9 +152,74 @@ const onFileSelected = (event) => {
       </form>
     </div>
 
-    <div class="col-span-full md:col-span-1 bg-gray-300">
-      <div class="w-full flex justify-center mt-10">
-        <span class="text-lg">Display View</span>
+    <div class="col-span-full md:col-span-1">
+      <div class="py-8">
+        <div class="max-w-screen-md mx-auto">
+          <div class="bg-white shadow-lg rounded-lg">
+            <div class="bg-black text-white py-4 px-6 rounded-t-lg">
+              <h3 class="text-2xl text-white flex justify-center font-semibold">Display Input Data</h3>
+            </div>
+            <div class="py-10">
+              <div class="grid grid-cols-5">
+                <div class="col-span-5 flex justify-center items-center mx-5 border-collapse border border-gray-300">
+                  <div class="flex justify-center">
+                    <div class="w-full py-2">
+                      <div class=" rounded-full p-2 mx-auto">
+
+                        <img class="h-[50px] max-w-xl rounded-full" :src="imageUrl" v-if="imageUrl" height="50"
+                             width="60" alt="Not Found">
+                        <img v-else="" :src="form.image_url" class="flex justify-center items-center rounded-full"
+                             alt="Image" height="50" width="60">
+
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="grid grid-cols-5">
+                <div
+                    class="col-span-5 flex justify-center items-center mt-4 mx-5 rounded border-collapse border border-gray-300">
+                  <div class="w-full bg-gray-100">
+                    <table class="w-full table-fixed my-4">
+                      <tbody>
+                      <tr class="bg-gray-100">
+                        <td class="w-2/3 py-2 px-4 font-semibold pl-12">QR Name</td>
+                        <td class="w-2/3 py-2">{{ form.qr_name }}</td>
+                      </tr>
+                      <tr class="bg-gray-50">
+                        <td class="w-1/2 py-2 px-4 font-semibold pl-12">Name</td>
+                        <td class="w-3/4 py-2">{{ form.name }}</td>
+                      </tr>
+                      <tr class="bg-gray-100">
+                        <td class="w-1/2 py-2 px-4 font-semibold pl-12">Surname</td>
+                        <td class="w-3/4 py-2">{{ form.surname }}</td>
+                      </tr>
+                      <tr class="bg-gray-50">
+                        <td class="w-1/2 py-2 px-4 font-semibold pl-12">Title</td>
+                        <td class="w-3/4 py-2">{{ form.title }}</td>
+                      </tr>
+                      <tr class="bg-gray-50">
+                        <td class="w-1/2 py-2 px-4 font-semibold pl-12">Mobile</td>
+                        <td class="w-3/4 py-2">{{ form.mobile }}</td>
+                      </tr>
+                      <tr class="bg-gray-50">
+                        <td class="w-1/2 py-2 px-4 font-semibold pl-12">Email</td>
+                        <td class="w-3/4 py-2">{{ form.email }}</td>
+                      </tr>
+                      <tr class="bg-gray-50">
+                        <td class="w-1/2 py-2 px-4 font-semibold pl-12">Address</td>
+                        <td class="w-3/4 py-2">{{ form.address }}</td>
+                      </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
       </div>
     </div>
 
