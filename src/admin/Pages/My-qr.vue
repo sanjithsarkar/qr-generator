@@ -70,12 +70,12 @@ const copyQRLink = (id) => {
 
 // ---------------  QR Resize ---------------
 
-const isCrease = ref(false);
+const isInCrease = ref(false);
 const qrSize = ref(80);
 const qrWidth = ref(70);
 const toggleSize = () => {
-  isCrease.value = !isCrease.value;
-  if (isCrease.value) {
+  isInCrease.value = !isInCrease.value;
+  if (isInCrease.value) {
     qrSize.value = 300;
     qrWidth.value = 200;
   } else {
