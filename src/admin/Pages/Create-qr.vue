@@ -17,6 +17,7 @@ const onFileSelected = (event) => {
 
 
 // ------------------------------- Insert Data ------------------------------
+
 const insertData = () => {
 
   let formData = new FormData();
