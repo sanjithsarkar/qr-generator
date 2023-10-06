@@ -9,6 +9,7 @@ const form = ref({});
 const errors = ref({});
 const imageUrl = ref(null);
 const router = useRouter();
+const imageNotSelected = ref(null);
 
 const onFileSelected = (event) => {
   form.value.image = event.target.files[0];
@@ -16,10 +17,44 @@ const onFileSelected = (event) => {
 };
 
 
+const ERROR_MESSAGES = {
+  IMAGE_NOT_SELECTED: 'Please select an image.',
+  INVALID_IMAGE_FORMAT: 'Invalid image format. Please use JPEG, JPG, PNG, or GIF.',
+  MAXIMIZE_IMAGE_SIZE: 'The image size is larger than the maximum permitted (5MB).',
+};
+
 // ------------------------------- Insert Data ------------------------------
+
 
 const insertData = () => {
 
+
+  let imageError = '';
+
+  const allowedImageTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif'];
+
+  if (!form.value.image) {
+    imageError = ERROR_MESSAGES.IMAGE_NOT_SELECTED;
+  }
+
+  if (form.value.image && !allowedImageTypes.includes(form.value.image.type)) {
+    imageError = ERROR_MESSAGES.INVALID_IMAGE_FORMAT;
+  }
+
+  // Check the image size (you can specify a maximum size in bytes)
+  const maxImageSizeInBytes = 5 * 1024 * 1024; // 5MB
+  if (form.value.image && form.value.image.size > maxImageSizeInBytes) {
+    imageError = ERROR_MESSAGES.MAXIMIZE_IMAGE_SIZE;
+  }
+
+// Set error messages and return if there are errors
+  if (imageError) {
+    imageNotSelected.value = imageError;
+    return;
+  }
+
+
+  // If all image validations pass, proceed to send the data
   let formData = new FormData();
   formData.append('image', form.value.image);
 
@@ -45,6 +80,7 @@ const insertData = () => {
         errors.value = error.response.data.errors;
       });
 }
+
 
 </script>
 
@@ -77,6 +113,9 @@ const insertData = () => {
             <label class="block mb-2 text-sm font-medium text-gray-900">Image</label>
             <input type="file" @change="onFileSelected"
                    class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50">
+
+            <small class="text-red-700 text-sm" v-if="imageNotSelected"> {{ imageNotSelected }}</small>
+
           </div>
           <div class="col-span-1 shadow-xl flex justify-center">
             <img class="h-[50px] max-w-xl rounded-full w-96 h-96" :src="imageUrl" v-if="imageUrl"
@@ -127,7 +166,7 @@ const insertData = () => {
               <label for="success" class="block mb-2 text-sm font-medium text-gray-900">Email</label>
               <input type="email" v-model="form.email" placeholder="Email"
                      class="block w-full text-sm text-gray-900 border border-gray-300 bg-gray-50">
-              <small class="text-red-700 text-sm" v-if="errors[0]"> {{ errors[5] }} </small>
+              <small class="text-red-700 text-sm" v-if="errors"> {{ errors[5] }} </small>
             </div>
           </div>
         </div>

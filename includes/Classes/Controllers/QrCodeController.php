@@ -18,13 +18,13 @@ class QrCodeController
 
         $params = $request->get_params();
 
-        $qrName = isset($params['qr_name']) ? sanitize_text_field($params['qr_name']) : '';
-        $name = isset($params['name']) ? sanitize_text_field($params['name']) : '';
-        $surname = isset($params['surname']) ? sanitize_text_field($params['surname']) : '';
-        $title = isset($params['title']) ? sanitize_text_field($params['title']) : '';
-        $email = isset($params['email']) ? sanitize_text_field($params['email']) : '';
-        $mobile = isset($params['mobile']) ? sanitize_text_field($params['mobile']) : '';
-        $address = isset($params['address']) ? sanitize_text_field($params['address']) : '';
+        $qrName = sanitize_text_field($params['qr_name']);
+        $name = sanitize_text_field($params['name']);
+        $surname = sanitize_text_field($params['surname']);
+        $title = sanitize_text_field($params['title']);
+        $email = sanitize_text_field($params['email']);
+        $mobile = sanitize_text_field($params['mobile']);
+        $address = sanitize_text_field($params['address']);
 
 
         $required_fields = array('qr_name', 'name', 'surname', 'title', 'email', 'mobile', 'address');
@@ -32,10 +32,6 @@ class QrCodeController
             if (empty($params[$field])) {
                 $validation_errors[] = 'Make sure to fill out the required field: ' . $field;
             }
-        }
-
-        if (!is_email($email)) {
-            $validation_errors[] = 'Invalid email address.';
         }
 
         if (!empty($validation_errors)) {
