@@ -91,9 +91,11 @@ const toggleSize = () => {
 
 // --------------------- QR Download ----------------------
 
-const QrDownload = (id) => {
+const qrImages = ref(null);
+
+const QrDownload = (index) => {
   const link = document.createElement('a');
-  link.href = getViewUrl(id);
+  link.href=qrImages.value[index].$el.src;
   link.download = 'qrcode.png';
   link.style.display = 'none';
   document.body.appendChild(link);
@@ -179,7 +181,7 @@ const refreshGetData = debounce(() => {
             <!-- VueQrcode -->
             <div>
               <button @click="toggleSize">
-                <VueQrcode :value="getViewUrl(item.id)" :size="qrSize" :width="qrWidth" class="mb-4"/>
+                <VueQrcode ref="qrImages" :value="getViewUrl(item.id)" :size="qrSize" :width="qrWidth" class="mb-4"/>
               </button>
             </div>
           </div>
@@ -248,7 +250,7 @@ const refreshGetData = debounce(() => {
             <div
                 class="group relative bg-green-600 text-white font-medium rounded overflow-hidden transition-transform transform hover:scale-105 mr-3">
 
-              <button @click="QrDownload(item.id)"
+              <button @click="QrDownload(index)"
                       class="px-3 py-2 rounded text-white font-medium hover:text-white">
                 <Download class="w-4 h-4 inline"/>
               </button>
