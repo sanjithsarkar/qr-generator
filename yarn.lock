@@ -881,6 +881,11 @@
     "lodash" "^4.2.0"
     "to-fast-properties" "^2.0.0"
 
+"@element-plus/icons-vue@^2.1.0":
+  "integrity" "sha512-PSBn3elNoanENc1vnCfh+3WA9fimRC7n+fWkf3rE5jvv+aBohNHABC/KAR5KWPecxWxDTVT1ERpRbOMRcOV/vA=="
+  "resolved" "https://registry.npmjs.org/@element-plus/icons-vue/-/icons-vue-2.1.0.tgz"
+  "version" "2.1.0"
+
 "@element-plus/icons@^0.0.11":
   "integrity" "sha512-iKQXSxXu131Ai+I9Ymtcof9WId7kaXvB1+WRfAfpQCW7UiAMYgdNDqb/u0hgTo2Yq3MwC4MWJnNuTBEpG8r7+A=="
   "resolved" "https://registry.npmjs.org/@element-plus/icons/-/icons-0.0.11.tgz"

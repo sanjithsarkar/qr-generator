@@ -4,63 +4,44 @@ import {ref} from "vue";
 import axios from "axios";
 import Swal from 'sweetalert2';
 import {useRouter} from 'vue-router';
+import Image from '../Components/Image.vue';
 
 const form = ref({});
 const errors = ref({});
 const imageUrl = ref(null);
 const router = useRouter();
 const imageNotSelected = ref(null);
-
-const onFileSelected = (event) => {
-  form.value.image = event.target.files[0];
-  imageUrl.value = URL.createObjectURL(form.value.image);
-};
+const attachmentUrl = ref({});
 
 
 const ERROR_MESSAGES = {
   IMAGE_NOT_SELECTED: 'Please select an image.',
-  INVALID_IMAGE_FORMAT: 'Invalid image format. Please use JPEG, JPG, PNG, or GIF.',
-  MAXIMIZE_IMAGE_SIZE: 'The image size is larger than the maximum permitted (5MB).',
 };
 
 // ------------------------------- Insert Data ------------------------------
 
+const onMediaSelected = (attachments) => {
+  console.log(attachments[0].url);
+  attachmentUrl.value = attachments[0].url;
+  imageUrl.value = attachments[0].url;
+  form.value.imageUrl = attachmentUrl.value;
+}
 
 const insertData = () => {
 
-
   let imageError = '';
 
-  const allowedImageTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif'];
-
-  if (!form.value.image) {
+  // If the image is not selected, the condition will operate.
+  if ((!form.value.imageUrl)) {
     imageError = ERROR_MESSAGES.IMAGE_NOT_SELECTED;
   }
 
-  if (form.value.image && !allowedImageTypes.includes(form.value.image.type)) {
-    imageError = ERROR_MESSAGES.INVALID_IMAGE_FORMAT;
-  }
-
-  // Check the image size (you can specify a maximum size in bytes)
-  const maxImageSizeInBytes = 5 * 1024 * 1024; // 5MB
-  if (form.value.image && form.value.image.size > maxImageSizeInBytes) {
-    imageError = ERROR_MESSAGES.MAXIMIZE_IMAGE_SIZE;
-  }
-
-// Set error messages and return if there are errors
   if (imageError) {
     imageNotSelected.value = imageError;
     return;
   }
 
-
-  // If all image validations pass, proceed to send the data
-  let formData = new FormData();
-  formData.append('image', form.value.image);
-
-  axios.post(window.qr_generator.resturl + 'insert', formData, {
-    params: form.value
-  })
+  axios.post(window.qr_generator.resturl + 'insert', form.value)
       .then((res) => {
         if (res.data.status === 'error') {
           errors.value = res.data.errors;
@@ -86,9 +67,9 @@ const insertData = () => {
 
 <template>
 
-  <div class="grid grid-cols-1 md:grid-cols-4 gap-4 pr-4">
+  <div class="grid grid-cols-1 md:grid-cols-7 gap-4 pr-4">
 
-    <div class="col-span-full md:col-span-3">
+    <div class="col-span-full md:col-span-5">
 
       <div class="grid grid-rows-1 mt-4">
         <div class="row-span-full flex justify-center">
@@ -111,8 +92,9 @@ const insertData = () => {
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div class="col-span-1">
             <label class="block mb-2 text-sm font-medium text-gray-900">Image</label>
-            <input type="file" @change="onFileSelected"
-                   class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50">
+
+            <Image @on-media-selected="onMediaSelected"
+                   class="block bg-blue-500 text-white font-semibold py-2 px-4 rounded"/>
 
             <small class="text-red-700 text-sm" v-if="imageNotSelected"> {{ imageNotSelected }}</small>
 
@@ -120,7 +102,7 @@ const insertData = () => {
           <div class="col-span-1 shadow-xl flex justify-center">
             <img class="h-[50px] max-w-xl rounded-full w-96 h-96" :src="imageUrl" v-if="imageUrl"
                  style="height: 55px; width: 65px;" alt="Not Found">
-            <span v-else="" class="flex justify-center items-center">View Image</span>
+            <!--            <span v-else="" class="flex justify-center items-center">View Image</span>-->
           </div>
         </div>
 
@@ -193,7 +175,7 @@ const insertData = () => {
     </div>
 
 
-    <div class="col-span-full md:col-span-1 gap-4">
+    <div class="col-span-full md:col-span-2 gap-4">
       <div class="py-8">
         <div class="max-w-screen-md mx-auto">
           <div class="bg-white shadow-lg rounded-lg">

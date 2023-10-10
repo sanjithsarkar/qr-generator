@@ -13,7 +13,7 @@ class UserProfileView
 
     public function renderProfileView($id)
     {
-        $table_name = $this->wpdb->prefix . 'userdata';
+        $table_name = $this->wpdb->prefix . QR_GENERATOR_SLUG . '_' . 'userdata';
 
         $columns = ['id', 'qr_name', 'name', 'surname', 'title', 'email', 'mobile', 'address', 'image'];
 
@@ -22,10 +22,10 @@ class UserProfileView
 
         if (count($results) > 0) {
             $viewResults = $results[0];
-            $image_url = WPM_URL . 'assets/images/' . $viewResults->image;
+            $imageUrl = $viewResults->image;
         } else {
             $viewResults = null;
-            $image_url = ''; // Set a default image URL or handle it as needed
+            $imageUrl = '';
         }
 
         // HTML rendering code
@@ -39,13 +39,13 @@ class UserProfileView
                         <h3 class="text-2xl font-semibold">View Profile</h3>
                     </div>
                     <div class="py-10">
-                        <div class="grid grid-cols-5">
+                        <div class="grid grid-cols-6">
                             <div class="col-span-1"></div>
-                            <div class="col-span-3 flex justify-center items-center border-collapse border border-gray-300">
+                            <div class="col-span-4 flex justify-center items-center rounded-lg border-collapse border border-gray-300">
                                 <div class="flex justify-center">
                                     <div class="w-full py-6">
                                         <div class=" rounded-full p-2 mx-auto">
-                                            <img src="<?php echo $image_url; ?>" alt="No Image"
+                                            <img src="<?php echo $imageUrl; ?>" alt="No Image"
                                                  class="block w-32 h-32 mx-auto rounded-full">
                                         </div>
                                         <div class="text-center mt-4">
@@ -57,9 +57,9 @@ class UserProfileView
                             <div class="col-span-1"></div>
                         </div>
 
-                        <div class="grid grid-cols-5">
+                        <div class="grid grid-cols-6">
                             <div class="col-span-1"></div>
-                            <div class="col-span-3 flex justify-center items-center mt-4 border-collapse border border-gray-300">
+                            <div class="col-span-4 flex justify-center items-center rounded py-4 mt-4 border-collapse border border-gray-300">
                                 <div class="w-full">
                                     <table class="w-full table-fixed">
                                         <tbody>

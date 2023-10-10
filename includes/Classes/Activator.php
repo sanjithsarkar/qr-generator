@@ -50,7 +50,7 @@ class Activator
     {
         global $wpdb;
         $charset_collate = $wpdb->get_charset_collate();
-        $table_name = $wpdb->prefix . 'userdata';
+        $table_name = $wpdb->prefix . QR_GENERATOR_SLUG . '_' . 'userdata';
         $sql = "CREATE TABLE $table_name (
             id int(10) NOT NULL AUTO_INCREMENT,
             user_id int(10) NOT NULL,

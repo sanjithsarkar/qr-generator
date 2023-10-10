@@ -8,7 +8,9 @@
  * Author URI: ""
  * Version: 1.0
  */
-define('WPM_URL', plugin_dir_url(__FILE__));
+
+
+define('QR_GENERATOR_URL', plugin_dir_url(__FILE__));
 define('QR_GENERATOR_DIR', plugin_dir_path(__FILE__));
 
 define('WPM_VERSION', '1.0.5');
@@ -29,6 +31,7 @@ class QrCodePlugin {
         $this->disableUpdateNag();
         \WPPluginWithVueTailwind\Classes\Routes::init();
         \WPPluginWithVueTailwind\Classes\CustomRoute::customRule();
+        $this->renderMediaLibrary();
     }
 
     public function loadClasses()
@@ -71,7 +74,7 @@ class QrCodePlugin {
         $loadAssets->admin();
 
         $WPWVT = apply_filters('WPWVT/admin_app_vars', array(
-            'assets_url' => WPM_URL . 'assets/',
+            'assets_url' => QR_GENERATOR_URL . 'assets/',
             'ajaxurl' => admin_url('admin-ajax.php'),
             'resturl' => site_url('wp-json/'.QR_GENERATOR_SLUG.'/api/'),
             'site_url' => site_url(),
@@ -94,6 +97,16 @@ class QrCodePlugin {
         </div>';
     }
 
+    // load wordpress media library
+    public function renderMediaLibrary(){
+        add_action('admin_enqueue_scripts', function (){
+            $this->wk_enqueue_script();
+        });
+    }
+
+    public function wk_enqueue_script(){
+        wp_enqueue_media();
+    }
 
     // disable update nag on admin dashboard
     public function disableUpdateNag()

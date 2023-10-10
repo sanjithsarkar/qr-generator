@@ -138,7 +138,7 @@ class Vite
 
     private static function getAssetPath(): string
     {
-        return WPM_URL . 'assets/';
+        return QR_GENERATOR_URL . 'assets/';
     }
 
     private static function getProductionFilePath($file): string

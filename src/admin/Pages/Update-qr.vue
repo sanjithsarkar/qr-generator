@@ -4,6 +4,7 @@ import {onMounted, ref} from "vue";
 import axios from "axios";
 import {useRoute} from "vue-router";
 import Swal from 'sweetalert2';
+import Image from '../Components/Image.vue';
 
 const form = ref({});
 
@@ -24,20 +25,15 @@ onMounted(() => {
 
 const imageUrl = ref(null);
 
-const onFileSelected = (event) => {
-  form.value.image = event.target.files[0];
-  imageUrl.value = URL.createObjectURL(form.value.image);
-};
+const onMediaSelected = (attachments) => {
+  const attachmentUrl = attachments[0].url;
+  imageUrl.value = attachmentUrl;
+  form.value.imageUrl = attachmentUrl;
+}
 
 const updateData = () => {
 
-  let formData = new FormData();
-  formData.append('image', form.value.image);
-  formData.append('_method', 'PUT');
-
-  axios.post(window.qr_generator.resturl + 'update/' + id, formData, {
-    params: form.value
-  })
+  axios.post(window.qr_generator.resturl + 'update/' + id, form.value)
       .then((res) => {
         Swal.fire(
             'Good job!',
@@ -55,9 +51,9 @@ const updateData = () => {
 
 <template>
 
-  <div class="grid grid-cols-1 md:grid-cols-4 gap-4 pr-4">
+  <div class="grid grid-cols-1 md:grid-cols-7 gap-4 pr-4">
 
-    <div class="col-span-full md:col-span-3">
+    <div class="col-span-full md:col-span-5">
 
       <div class="grid grid-rows-1 mt-4">
         <div class="row-span-full flex justify-center">
@@ -79,13 +75,13 @@ const updateData = () => {
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div class="col-span-1">
             <label class="block mb-2 text-sm font-medium text-gray-900">Image</label>
-            <input type="file" id="customFile" @change="onFileSelected"
-                   class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50">
+            <Image @on-media-selected="onMediaSelected"
+                   class="block bg-blue-600 font-semibold text-white rounded px-2 py-2"/>
           </div>
           <div class="col-span-1 shadow-xl flex justify-center">
             <img class="h-[50px] max-w-xl rounded-full" :src="imageUrl" v-if="imageUrl" height="50" width="60"
                  alt="Not Found">
-            <img v-else="" :src="form.image_url" class="flex justify-center items-center rounded-full" alt="Image"
+            <img v-else="" :src="form.image" class="flex justify-center items-center rounded-full" alt="Image"
                  height="50" width="60">
           </div>
         </div>
@@ -152,7 +148,7 @@ const updateData = () => {
       </form>
     </div>
 
-    <div class="col-span-full md:col-span-1">
+    <div class="col-span-full md:col-span-2">
       <div class="py-8">
         <div class="max-w-screen-md mx-auto">
           <div class="bg-white shadow-lg rounded-lg">
@@ -168,7 +164,7 @@ const updateData = () => {
 
                         <img class="h-[50px] max-w-xl rounded-full" :src="imageUrl" v-if="imageUrl" height="50"
                              width="60" alt="Not Found">
-                        <img v-else="" :src="form.image_url" class="flex justify-center items-center rounded-full"
+                        <img v-else="" :src="form.image" class="flex justify-center items-center rounded-full"
                              alt="Image" height="50" width="60">
 
                       </div>

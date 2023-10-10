@@ -1,8 +1,12 @@
 <script setup>
-import {ref, onMounted, computed, onUnmounted } from 'vue';
+import {ref, onMounted} from 'vue';
 import axios from "axios";
 import VueQrcode from 'vue-qrcode';
 import Swal from 'sweetalert2';
+import {Edit} from '@element-plus/icons-vue';
+import {Delete} from '@element-plus/icons-vue';
+import {Download} from '@element-plus/icons-vue';
+import {debounce} from 'lodash';
 
 const tableData = ref({});
 
@@ -29,7 +33,7 @@ const deleteData = (id) => {
     if (result.isConfirmed) {
       axios.delete(window.qr_generator.resturl + 'delete/' + id)
           .then((res) => {
-            getData();
+            refreshGetData();
           })
           .catch((error) => {
             console.error("Error:", error);
@@ -84,10 +88,27 @@ const toggleSize = () => {
   }
 }
 
+
+// --------------------- QR Download ----------------------
+
+const QrDownload = (id) => {
+  const link = document.createElement('a');
+  link.href = getViewUrl(id);
+  link.download = 'qrcode.png';
+  link.style.display = 'none';
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+}
+
 // ---------------- Mount ---------------------
 onMounted(() => {
   getData();
 })
+
+const refreshGetData = debounce(() => {
+  getData();
+}, 100)
 
 </script>
 
@@ -164,6 +185,20 @@ onMounted(() => {
           </div>
         </td>
 
+
+        <!--        <td class="px-6 py-4">-->
+        <!--          <div class="flex flex-col items-center justify-center">-->
+        <!--            &lt;!&ndash; VueQrcode &ndash;&gt;-->
+        <!--            <div>-->
+        <!--              <button @click="toggleSize">-->
+        <!--                <img class="shadow-lg"-->
+        <!--                     :src="'https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=' + getViewUrl(item.id)"-->
+        <!--                     alt="QR Code"/>-->
+        <!--              </button>-->
+        <!--            </div>-->
+        <!--          </div>-->
+        <!--        </td>-->
+
         <td class="px-6 py-4">
           <div class="flex flex-col items-center justify-center">
             <a :href="getViewUrl(item.id)" target="_blank" class="mb-6" id="copyLink">{{ getViewUrl(item.id) }}</a>
@@ -174,16 +209,14 @@ onMounted(() => {
 
           <!---------------- Edit ------------->
           <div class="flex justify-center">
-            <div class="group relative bg-blue-600 text-white px-3 py-2 font-medium rounded overflow-hidden transition-transform transform hover:scale-105 mr-3">
-              <router-link :to="`/update-qr/${item.id}`">
-                <svg class="w-5 h-5 text-white pt-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
-                     viewBox="0 0 20 20">
-                  <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                        d="M5 1v3m5-3v3m5-3v3M1 7h7m1.506 3.429 2.065 2.065M19 7h-2M2 3h16a1 1 0 0 1 1 1v14a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1Zm6 13H6v-2l5.227-5.292a1.46 1.46 0 0 1 2.065 2.065L8 16Z"/>
-                </svg>
+            <div
+                class="group relative bg-blue-600 text-white px-3 py-2 font-medium rounded overflow-hidden transition-transform transform hover:scale-105 mr-3">
+              <router-link :to="`/update-qr/${item.id}`" class="hover:text-white text-sm">
+                <Edit class="w-4 h-4 inline"/>
               </router-link>
 
-              <div class="group-hover:opacity-100 opacity-0 transition-opacity absolute inset-0 flex items-center justify-center bg-black text-white text-center">
+              <div
+                  class="group-hover:opacity-100 opacity-0 transition-opacity absolute inset-0 flex items-center justify-center bg-black text-white text-center">
                 <router-link :to="`/update-qr/${item.id}`" class="hover:text-white text-sm">
                   Edit
                 </router-link>
@@ -193,24 +226,34 @@ onMounted(() => {
 
             <!---------------- Delete ------------->
 
-            <div class="group relative bg-red-600 text-white pl-2 py-1 font-medium rounded overflow-hidden transition-transform transform hover:scale-105 mr-3">
+            <div
+                class="group relative bg-red-600 text-white font-medium rounded overflow-hidden transition-transform transform hover:scale-105 mr-3">
 
               <button @click="deleteData(item.id)"
-                      class="px-2 py-1 rounded text-white font-medium hover:text-white mr-1 mt-1">
-                <svg class="w-4 h-4 text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
-                     viewBox="0 0 20 16">
-                  <path stroke="currentColor" stroke-linejoin="round" stroke-width="2"
-                        d="M8 8v1h4V8m4 7H4a1 1 0 0 1-1-1V5h14v9a1 1 0 0 1-1 1ZM2 1h16a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1Z"/>
-                </svg>
-
+                      class="px-3 py-2 rounded text-white font-medium hover:text-white">
+                <Delete class="w-4 h-4 inline"/>
               </button>
 
-              <div class="group-hover:opacity-100 opacity-0 transition-opacity text-sm absolute inset-0 flex items-center justify-center bg-black text-white text-center">
+              <div
+                  class="group-hover:opacity-100 opacity-0 transition-opacity text-sm absolute inset-0 flex items-center justify-center bg-black text-white text-center">
                 <button @click="deleteData(item.id)" class="text-sm">
                   Delete
                 </button>
               </div>
             </div>
+
+
+            <!---------------- QR Download ----------------->
+
+            <div
+                class="group relative bg-green-600 text-white font-medium rounded overflow-hidden transition-transform transform hover:scale-105 mr-3">
+
+              <button @click="QrDownload(item.id)"
+                      class="px-3 py-2 rounded text-white font-medium hover:text-white">
+                <Download class="w-4 h-4 inline"/>
+              </button>
+            </div>
+
 
             <!---------------- Copy Link ------------->
             <button type="button" @click="copyQRLink(item.id)"
