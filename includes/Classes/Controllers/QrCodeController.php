@@ -4,16 +4,17 @@ namespace WPPluginWithVueTailwind\Classes\Controllers;
 
 use WP_Error;
 use WP_REST_Request;
+use WPPluginWithVueTailwind\Classes\CustomDatabaseConnection;
 
 class QrCodeController
 {
 
-    private $wpdb;
+//    private $wpdb;
+    private $database;
 
     public function __construct()
     {
-        global $wpdb;
-        $this->wpdb = $wpdb;
+        $this->database = new CustomDatabaseConnection();
     }
 
 // ------------------------   Insert data ------------------
@@ -39,7 +40,7 @@ class QrCodeController
             }
         }
 
-        if(!is_email($email)){
+        if (!is_email($email)) {
             $validation_errors['email'] = 'Invalid Email Address';
         }
 
@@ -51,7 +52,6 @@ class QrCodeController
             );
             wp_send_json($response);
         }
-
 
 
         $current_user = wp_get_current_user();
@@ -69,17 +69,10 @@ class QrCodeController
             'image' => $imageUrl,
         );
 
+        $result = $this->database->insert('userdataa', $dataInsert);
 
-        // Insert data into the database table
-        $table_name = $this->wpdb->prefix . QR_GENERATOR_SLUG . '_' . 'userdata';
-
-        $this->wpdb->insert(
-            $table_name,
-            $dataInsert
-        );
-
-        if ($this->wpdb->last_error) {
-            return new WP_Error('database_error', 'Error inserting data into the database.', array('status' => 500));
+        if (!$result) {
+            return rest_ensure_response(['database_error' => 'Error inserting data into the database.']);
         }
 
         $response = array(
@@ -93,10 +86,8 @@ class QrCodeController
 
     //----------------------- display all data ------------------
 
-    public function getMyData()
+    public function getAllData()
     {
-        $table_name = $this->wpdb->prefix . QR_GENERATOR_SLUG . '_' . 'userdata';
-
         $columns = array(
             'id',
             'qr_name',
@@ -108,13 +99,10 @@ class QrCodeController
             'address',
         );
 
-        $sql = "SELECT " . implode(', ', $columns) . " FROM $table_name";
-
-        $results = $this->wpdb->get_results($sql);
+        $results = $this->database->select('userdata', $columns);
 
         return $results;
     }
-
 
 
 //    --------------------------- get data by id --------------------------
@@ -123,15 +111,9 @@ class QrCodeController
     {
         $id = $params['id'];
 
-        $table_name = $this->wpdb->prefix . QR_GENERATOR_SLUG . '_' . 'userdata';
-
         $columns = ['id', 'qr_name', 'name', 'surname', 'title', 'email', 'mobile', 'address', 'image'];
 
-        $sql = $this->wpdb->prepare(
-            "SELECT " . implode(', ', $columns) . " FROM $table_name WHERE id = %d",
-            $id);
-
-        $results = $this->wpdb->get_results($sql);
+        $results = $this->database->selectById('userdata', $columns, $id);
 
         if (is_array($results) && count($results)) {
             wp_send_json_success([
@@ -139,9 +121,9 @@ class QrCodeController
             ]);
         }
 
-        wp_send_json_error([
-            'data' => "Data Not Found"
-        ]);
+        if (!count($results) > 0) {
+            return rest_ensure_response(['errors' => "This data is not available on our server."]);
+        }
     }
 
 
@@ -152,9 +134,6 @@ class QrCodeController
     {
         $params = $request->get_params();
         $id = $params['id'];
-
-        //table name
-        $table_name = $this->wpdb->prefix . QR_GENERATOR_SLUG . '_' . 'userdata';
 
         if (isset($params['imageUrl'])) {
 
@@ -171,10 +150,11 @@ class QrCodeController
 
             $where = array('id' => $id);
 
-            $this->wpdb->update($table_name, $updateData, $where);
+            $result = $this->database->update('userdata', $updateData, $where);
 
-            if ($this->wpdb->last_error) {
-                return new WP_Error('database_error', 'Error updating data in the database.', array('status' => 500));
+
+            if (!$result) {
+                return rest_ensure_response(['errors' => 'Error updating data in the database.', array('status' => 500)]);
             }
 
             $response = array(
@@ -197,10 +177,10 @@ class QrCodeController
 
             $where = array('id' => $id);
 
-            $this->wpdb->update($table_name, $updateData, $where);
+            $result = $this->database->update('userdata', $updateData, $where);
 
-            if ($this->wpdb->last_error) {
-                return new WP_Error('database_error', 'Error updating data in the database.', array('status' => 500));
+            if (!$result) {
+                return rest_ensure_response(['errors' => 'Error updating data in the database.', array('status' => 500)]);
             }
 
             $response = array(
@@ -218,13 +198,12 @@ class QrCodeController
     public function deleteDataById($params)
     {
         $id = $params['id'];
-        $table_name = $this->wpdb->prefix . QR_GENERATOR_SLUG . '_' . 'userdata';
 
         $where = array(
             'id' => $id,
         );
 
-        $deleteRow = $this->wpdb->delete($table_name, $where);
+        $deleteRow = $this->database->delete('userdata', $where);
 
         if ($deleteRow) {
             return rest_ensure_response(array('message' => 'Data deleted successfully'), 200);

@@ -37,7 +37,7 @@ class Routes
 
         register_rest_route(QR_GENERATOR_SLUG . '/api', '/get/data', [
             'methods' => 'GET',
-            'callback' => [new QrCodeController, 'getMyData'],
+            'callback' => [new QrCodeController, 'getAllData'],
         ]);
 
         register_rest_route(QR_GENERATOR_SLUG . '/api', '/get/data/(?P<id>\d+)', [

@@ -12,7 +12,7 @@ const imageUrl = ref(null);
 const router = useRouter();
 const imageNotSelected = ref(null);
 const attachmentUrl = ref({});
-
+const database_error = ref(null);
 
 const ERROR_MESSAGES = {
   IMAGE_NOT_SELECTED: 'Please select an image.',
@@ -46,7 +46,10 @@ const insertData = () => {
         if (res.data.status === 'error') {
           errors.value = res.data.errors;
           console.log(errors.value);
-        } else if (res.data.status === 'success') {
+        } else if (res.data.database_error){
+          database_error.value = res.data.database_error;
+        }
+        else if (res.data.status === 'success') {
           Swal.fire(
               'Good job!',
               'Data inserted successfully!',
@@ -79,6 +82,7 @@ const insertData = () => {
 
       <div class="flex justify-center py-3">
         <span class="text-red-700 font-semibold" v-if="errors">{{ errors['email']}}</span>
+        <span class="text-red-700 mt-4 font-semibold" v-if="database_error">{{ database_error }}</span>
       </div>
 
       <form @submit.prevent="insertData" enctype="multipart/form-data">
@@ -87,7 +91,7 @@ const insertData = () => {
           <input type="text" id="first_name" v-model="form.qr_name"
                  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                  placeholder="John">
-          <small class="text-red-700 text-sm" v-if="errors"> {{ errors[0] }} </small>
+          <small class="text-red-700 text-sm" v-if="errors"> {{ errors['0'] }} </small>
         </div>
 
         <div class="text-left mt-3 mb-2">

@@ -7,12 +7,17 @@ import Swal from 'sweetalert2';
 import Image from '../Components/Image.vue';
 
 const form = ref({});
+const errors = ref(null);
 
 const id = useRoute().params.id;
 const getData = () => {
   axios.get(window.qr_generator.resturl + 'get/data/' + id)
       .then((res) => {
-        form.value = res.data.data.data;
+        if (res.data.errors){
+          errors.value = res.data.errors;
+        }else {
+          form.value = res.data.data.data;
+        }
       })
       .catch((error) => {
         console.error('Error fetching data:', error);
@@ -35,11 +40,9 @@ const updateData = () => {
 
   axios.post(window.qr_generator.resturl + 'update/' + id, form.value)
       .then((res) => {
-        Swal.fire(
-            'Good job!',
-            'Data Updated Successfully!',
-            'success'
-        )
+        if (res.data.errors){
+          errors.value = res.data.errors;
+        }
       })
       .catch((error) => {
         console.error("Error:", error);
@@ -59,6 +62,10 @@ const updateData = () => {
         <div class="row-span-full flex justify-center">
           <h3 class="text-lg bg-black px-4 py-2 rounded text-white">Update Data</h3>
         </div>
+      </div>
+
+      <div class="flex justify-center py-3">
+        <span class="text-red-700 font-semibold" v-if="errors">{{ errors }}</span>
       </div>
 
       <form @submit.prevent="updateData" enctype="multipart/form-data">
