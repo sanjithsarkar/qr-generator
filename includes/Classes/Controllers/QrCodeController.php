@@ -26,7 +26,7 @@ class QrCodeController
         $name = sanitize_text_field($params['name']);
         $surname = sanitize_text_field($params['surname']);
         $title = sanitize_text_field($params['title']);
-        $email = sanitize_text_field($params['email']);
+        $email = sanitize_email($params['email']);
         $mobile = sanitize_text_field($params['mobile']);
         $address = sanitize_text_field($params['address']);
         $imageUrl = sanitize_text_field($params['imageUrl']);
@@ -39,6 +39,10 @@ class QrCodeController
             }
         }
 
+        if(!is_email($email)){
+            $validation_errors['email'] = 'Invalid Email Address';
+        }
+
         if (!empty($validation_errors)) {
             $response = array(
                 'status' => 'error',
@@ -47,6 +51,8 @@ class QrCodeController
             );
             wp_send_json($response);
         }
+
+
 
         $current_user = wp_get_current_user();
         $userId = $current_user->ID;

@@ -53,9 +53,9 @@ const insertData = () => {
               'success'
           )
           router.push({path: '/my-qr'});
+          form.value = {};
+          // form.reset();
         }
-        form.value = {};
-        // form.reset();
       })
       .catch((error) => {
         errors.value = error.response.data.errors;
@@ -75,6 +75,10 @@ const insertData = () => {
         <div class="row-span-full flex justify-center">
           <h3 class="text-lg bg-black px-4 py-2 rounded text-white">Insert Data</h3>
         </div>
+      </div>
+
+      <div class="flex justify-center py-3">
+        <span class="text-red-700 font-semibold" v-if="errors">{{ errors['email']}}</span>
       </div>
 
       <form @submit.prevent="insertData" enctype="multipart/form-data">

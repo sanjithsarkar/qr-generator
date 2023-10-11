@@ -95,6 +95,7 @@ const qrImages = ref(null);
 
 const QrDownload = (index) => {
   const link = document.createElement('a');
+  //console.log(qrImages.value[index].$el.src)
   link.href=qrImages.value[index].$el.src;
   link.download = 'qrcode.png';
   link.style.display = 'none';
